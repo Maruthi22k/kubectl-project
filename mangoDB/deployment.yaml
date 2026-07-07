@@ -1,25 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongodb
+  name: mongodb-deployment
   namespace: kubernates-dashboard
+  labels:
+    app: mongodb
+    name: mangoDB-lables
+    tier: db
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: mongodb
-      tier: database
-
+      name: mangoDB-lables
+      tier: db
   template:
     metadata:
       labels:
-        app: mongodb
-        tier: database
-
+      app: mongodb
+      name: mangoDB-lables
+      tier: db
     spec:
       containers:
         - name: mongodb
-          image: mongo:latest
+          image: paulmaruthi18/mongodb:latest
           ports:
             - containerPort: 27017
           # env:
