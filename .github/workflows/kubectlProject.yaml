@@ -1,0 +1,35 @@
+
+name: kubenate project connectivity with mongodb and redis
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # - name: Set up Kubernetes
+      #   uses: aws/setup-kubectl@v1
+      #   with:
+      #     version: 'latest'
+
+      # - name: Create Namespace
+      #   run: |
+      #     kubectl apply -f namespace.yaml
+
+      # - name: Deploy MongoDB
+      #   run: |
+      #     kubectl apply -f mongodb-deployment.yaml
+
+      # - name: Deploy Redis
+      #   run: |
+      #     kubectl apply -f redis-deployment.yaml
+
+      # - name: Verify Deployments
+      #   run: |
+      #     kubectl get pods --namespace=kubernates-dashboard
