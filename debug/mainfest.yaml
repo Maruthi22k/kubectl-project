@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Pod
+metadata:
+  name: Debug
+  namespace: Kubernetes-dashboard
+  labels:
+    project: TailorSpot
+    component: Debug
+    tier: backend
+spec:
+ containers:
+ - name: Debug
+   images: paulmaruthi18/debug:v1
+   port: 80
