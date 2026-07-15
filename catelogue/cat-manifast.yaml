@@ -10,7 +10,7 @@ data:
   MONGO_DB_URL: mongodb://mongodb-service.kubernates-dashboard.svc.cluster.local:27017/catalogue?authSource=admin
 
 ---
-apiVersion: v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: catalogue
