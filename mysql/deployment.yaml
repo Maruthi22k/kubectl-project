@@ -1,0 +1,84 @@
+
+## what perpose of configmap is used hear?
+## configmap is used to store configuration data that can be consumed by pods.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql
+  namespace: kubernates-dashboard
+data:
+  MYSQL: "true"
+  MYSQL_URL: "mysql://mysql:3306/catalogue"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: kubernates-dashboard
+  # these are replica set labels
+  labels:
+    project: TailorSpot
+    component: mysql
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    # these labels are used to select pods
+    matchLabels:
+      project: TailorSpot
+      component: mysql
+      tier: backend
+  # pod definition
+  template:
+    metadata:
+      labels:
+        project: TailorSpot
+        component: mysql
+        tier: backend
+    spec:
+      containers:
+      - name: mysql
+        image: paulmaruthi18/mysql:v1
+        imagePullPolicy: Always    ## Always pull the image from the registry, even if it is already present on the node.
+        envFrom:
+        - configMapRef:
+            name: mysql
+        ports:
+        - name: liveness-port
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: liveness-port
+          failureThreshold: 1
+          periodSeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: liveness-port
+          failureThreshold: 1
+          periodSeconds: 15
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: kubernates-dashboard
+spec:
+  selector:
+    project: TailorSpot
+    component: mysql
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 3306 # service port
+      targetPort: 3306 # container port
+
+
+### why we are using service here is to expose the deployment to other deployments in the cluster. (catlog to mongodb) 
+##  we can also use ingress to expose the deployment to outside world. 
+## but we are not using ingress here because we are using kubernates-dashboard which is a web UI for kubernates. 
+## so we are using service to expose the deployment to kubernates-dashboard.
+
