@@ -56,14 +56,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: catalogue-service
+  name: catalogue
   namespace: kubernates-dashboard
 spec:
   selector:
     project: TailorSpot
     component: catalogue
     tier: backend
-    ports:
+  ports:
     - protocol: TCP
       port: 8080 # service port
       targetPort: 8080 # container port
