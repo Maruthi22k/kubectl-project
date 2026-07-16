@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: radies
+  namespace: TailorSpot-namespace
+  data:
+    redis: "true"
+
+---
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: radies-deployment
+  namespace: TailorSpot-namespace
+  # these are replica set labels
+  labels:
+    project: TailorSpot
+    component: catalogue
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchlabels:
+      project: TailorSpot
+      component: catalogue
+      tier: backend
+  template:
+    metadata:
+      labels:
+        project: TailorSpot
+        component: catalogue
+        tier: backend
+        spec:
+          containers:
+            - name: radies
+              image: radies:latest
+              imagePullPolicy: Always
+              envFrom:
+                - configMapRef:
+                    name: radies
+              readinessProbe:
+                tcpSocket:
+                  port: 8080
+                initialDelaySeconds: 15
+                periodSeconds: 10
+              livenessProbe:
+                tcpSocket:
+                  port: 8080
+                initialDelaySeconds: 15
+                periodSeconds: 10 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogue
+  namespace: TailorSpot-namespace
+spec:
+  selector:
+    project: TailorSpot
+    component: catalogue
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 8080 # service port
+      targetPort: 8080 # container port                     
+                  
