@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Deployment
 metadata:
   name: radies-deployment
-  namespace: TailorSpot-namespace
+  namespace: tailorspot-namespace
   # these are replica set labels
   labels:
     project: TailorSpot
@@ -45,7 +45,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: catalogue
-  namespace: TailorSpot-namespace
+  namespace: tailorspot-namespace
 spec:
   selector:
     project: TailorSpot

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: TailorSpot-namespace
+  name: tailorspot-namespace
   labels:
     project: kubectl-Tailor
     name: TailorSpot
