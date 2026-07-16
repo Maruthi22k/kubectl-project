@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: rabitmq
-        image: 
+        image: rabitmq:latest
         imagePullPolicy: Always    ## Always pull the image from the registry, even if it is already present on the node.
         envFrom:
         - configMapRef:
