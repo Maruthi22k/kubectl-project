@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:  
+  name: rabitmq
+  namespace: tailorspot-namespace
+  # these are replica set labels
+  labels:
+    project: TailorSpot
+    component: rabitmq
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    # these labels are used to select pods
+    matchLabels:
+      project: TailorSpot
+      component: rabitmq
+      tier: backend
+  template:
+    metadata:
+      labels:
+        project: TailorSpot
+        component: rabitmq
+        tier: backend
+    spec:
+      containers:
+      - name: rabitmq
+        image: 
+        imagePullPolicy: Always    ## Always pull the image from the registry, even if it is already present on the node.
+        envFrom:
+        - configMapRef:
+            name: rabitmq
+        ports:
+        - name: liveness-port
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          failureThreshold: 1
+          periodSeconds: 15
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          failureThreshold: 1
+          periodSeconds: 15 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabitmq
+  namespace: tailorspot-namespace
+spec:
+  selector:
+    project: TailorSpot
+    component: rabitmq
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 8080 # service port
+      targetPort: 8080 # container port
+
+        
