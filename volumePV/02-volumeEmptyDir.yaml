@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: 
-  
+  name: empty-dir-pod
+  namespace: default
 spec:
   containers:
     - name: empty-dir-container
@@ -23,7 +23,8 @@ spec:
 
   volumes:
     - name: empty-dir-volume
-      emptyDir: {}
+      emptyDir: 
+       sizeLimit: 500Mi
 
   ## step:1 kubectl apply -f 02-volumeEmptyDir.yaml
   ## step:2 kubectl exec -it empty-dir-pod -c almalinux-container -- bash
