@@ -14,8 +14,9 @@ spec:
     - name: almalinux-container
       image: almalinux:latest
       command:
-        - sleep
-        - "100"
+        - /bin/sh
+        - -c
+        - sleep 3600
       volumeMounts:
         - name: empty-dir-volume
           mountPath: /var/log/almalinux
@@ -26,8 +27,9 @@ spec:
       emptyDir: 
        sizeLimit: 500Mi
 
-  ## step:1 kubectl apply -f 02-volumeEmptyDir.yaml
-  ## step:2 kubectl exec -it empty-dir-pod -c almalinux-container -- bash
+  ## kubectl apply -f 02-volumeEmptyDir.yaml
+  ## kubectl describe pod empty-dir-pod
+  ## kubectl exec -it empty-dir-pod -c almalinux-container -- bash
 
 
 
