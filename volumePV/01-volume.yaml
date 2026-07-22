@@ -7,7 +7,7 @@ spec:
   containers:
     - name: volume-container
       image: nginx:latest
-    volumeMounts:
+      volumeMounts:
       - name: volume-mount
         mountPath: /usr/share/nginx/html
   volumes:
